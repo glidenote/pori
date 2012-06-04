@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors        = ["Akira Maeda"]
   gem.email          = ["glidenote@gmail.com"]
   gem.summary        = %q{A command line tool for Bitbucket to create repositories.}
-  gem.homepage       = ["https://github.com/glidenote/pori"]
+  gem.homepage       = "http://github.com/glidenote/pori/"
 
   gem.files          = `git ls-files`.split($\)
   gem.executables    = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
