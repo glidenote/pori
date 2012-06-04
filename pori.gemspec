@@ -4,9 +4,8 @@ require File.expand_path('../lib/pori/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors        = ["Akira Maeda"]
   gem.email          = ["glidenote@gmail.com"]
-  gem.homepage       = ["https://github.com/glidenote/pori"]
   gem.summary        = %q{A command line tool for Bitbucket to create repositories.}
-  gem.homepage       = ""
+  gem.homepage       = ["https://github.com/glidenote/pori"]
 
   gem.files          = `git ls-files`.split($\)
   gem.executables    = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
