@@ -21,6 +21,10 @@ Or install it yourself as:
     $ cd path/to/local-git-directory
     $ pori
 
+## Requirements
+
+ * [cURL](http://curl.haxx.se/)
+
 ## Contributing
 
 1. Fork it
