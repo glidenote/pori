@@ -2,20 +2,8 @@
 
 PWD = Dir.pwd
 
-def git_command
-  `which git`.chomp
-end
-
 def current_dir
   PWD
-end
-
-def git_dir
-  `#{git_command} rev-parse -q --git-dir`
-end
-
-def is_repo?
-  !!git_dir
 end
 
 def new_repo_name
@@ -34,5 +22,3 @@ def new_repo_name
   end
   repo_name
 end
-
-
