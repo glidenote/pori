@@ -1,6 +1,6 @@
 # Pori
 
-A command line toos for Bitbucket to create repository.
+A command line toos for Bitbucket to create repository.(only git)
 
 ## Installation
 
