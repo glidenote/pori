@@ -1,6 +1,6 @@
 # Pori
 
-TODO: Write a gem description
+A command line toos for Bitbucket to create repository.
 
 ## Installation
 
@@ -18,7 +18,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ cd path/to/local-git-directory
+    $ pori
 
 ## Contributing
 
