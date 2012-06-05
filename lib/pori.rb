@@ -1,4 +1,5 @@
-require "pori/version"
-require "pori/context"
-require "pori/commands"
+# -*- coding: utf-8 -*-
 
+require "pori/version"
+require "pori/commands"
+require "pori/runner"
