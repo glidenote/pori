@@ -1,6 +1,6 @@
 # Pori
 
-A command line toos for Bitbucket to create repository.(only git)
+A command line toos for Bitbucket to create private repository.(only git)
 
 ## Installation
 
@@ -23,6 +23,7 @@ Or install it yourself as:
 
 ## Requirements
 
+ * [Git](http://git-scm.com/)
  * [cURL](http://curl.haxx.se/)
 
 ## Contributing
