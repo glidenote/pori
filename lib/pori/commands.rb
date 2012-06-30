@@ -20,8 +20,11 @@ module Pori
     end
 
     def run
-      # 今は決め打ち、動的に変更する
-      self.send('create')
+      if @args == "delete"
+        self.send('delete')
+      else
+        self.send('create')
+      end
     end
 
     def create
@@ -36,10 +39,12 @@ module Pori
     def delete
       repo = repo_name
 
-      puts "Do you want delete https://bitbucket.org/#{@username}/#{repo}? [y/N]"
-
-      puts "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
-      system "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
+      if del_flags
+        puts "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
+        system "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
+      else
+        puts "Canceled."
+      end
     end
 
     private
@@ -51,5 +56,22 @@ module Pori
     def is_git_repo?
       system('git rev-parse --git-dir >/dev/null 2>&1;')
     end
+
+    def del_flags
+      repo = repo_name
+      confirm = false
+
+      print "Please type in the name of the repository to confirm :"
+      del_repo = gets.chomp
+
+      if del_repo == repo
+        print "Really delete repository? [y/N] :"
+        yes_or_no = gets.chomp
+        if yes_or_no =~ /yes|y/i
+          confirm = true
+        end
+      end
+    end
+
   end
 end
