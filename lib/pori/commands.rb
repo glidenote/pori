@@ -20,11 +20,8 @@ module Pori
     end
 
     def run
-      if @args == "delete"
-        self.send('delete')
-      else
-        self.send('create')
-      end
+      # 今は決め打ち、動的に変更する
+      self.send('create')
     end
 
     def create
@@ -61,7 +58,7 @@ module Pori
       repo = repo_name
       confirm = false
 
-      print "Please type in the name of the repository to confirm :"
+      print "Please type in the name of the repository to confirm [(#{repo})] :"
       del_repo = gets.chomp
 
       if del_repo == repo
