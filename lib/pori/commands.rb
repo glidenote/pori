@@ -5,7 +5,7 @@ require 'pit'
 module Pori
   class Commands
     def initialize(args)
-      @args = args
+      @command = args.empty? ? :create : args.shift.to_sym
 
       config = Pit.get("bitbucket", :require  => {
         "username"  => "your account in bitbucket",
@@ -20,8 +20,7 @@ module Pori
     end
 
     def run
-      # 今は決め打ち、動的に変更する
-      self.send('create')
+      self.send(@command)
     end
 
     def create
