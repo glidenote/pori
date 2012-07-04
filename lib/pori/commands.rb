@@ -5,7 +5,7 @@ require 'pit'
 module Pori
   class Commands
     def initialize(args)
-      @args = args
+      @command = args.empty? ? :create : args.shift.to_sym
 
       config = Pit.get("bitbucket", :require  => {
         "username"  => "your account in bitbucket",
@@ -20,8 +20,7 @@ module Pori
     end
 
     def run
-      # 今は決め打ち、動的に変更する
-      self.send('create')
+      self.send(@command)
     end
 
     def create
@@ -59,11 +58,11 @@ module Pori
       confirm = false
 
       print "Please type in the name of the repository to confirm [(#{repo})] :"
-      del_repo = gets.chomp
+      del_repo = STDIN.gets.chomp
 
       if del_repo == repo
         print "Really delete repository? [y/N] :"
-        yes_or_no = gets.chomp
+        yes_or_no = STDIN.gets.chomp
         if yes_or_no =~ /yes|y/i
           confirm = true
         end
