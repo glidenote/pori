@@ -15,4 +15,9 @@ Gem::Specification.new do |gem|
   gem.version        = Pori::VERSION
 
   gem.add_dependency 'pit'
+  gem.add_dependency 'rake'
+  gem.add_development_dependency 'rspec',         '~> 2.10.0'
+  gem.add_development_dependency 'webmock',       '~> 1.8.7'
+  gem.add_development_dependency 'guard',         '~> 1.1.1'
+  gem.add_development_dependency 'guard-rspec',   '~> 1.1.0'
 end
