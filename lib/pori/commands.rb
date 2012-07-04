@@ -5,13 +5,13 @@ require 'httparty'
 
 module Pori
   class Commands
-    def initialize(args)
+    def initialize(*args)
       @command = args.empty? ? :create : args.shift.to_sym
 
-      config = Pit.get(
-        "bitbucket", require: {
-          username: "your account in bitbucket",
-          password: "your password in bitbucket"
+      config = Pit.get("bitbucket",
+        require: {
+          "username" => "your account in bitbucket",
+          "password" => "your password in bitbucket"
         }
       )
 
@@ -24,8 +24,8 @@ module Pori
       @username  = config['username']
     end
 
-    def self.run(args)
-      self.new(args).run
+    def self.run(*args)
+      self.new(*args).run
     end
 
     def run
