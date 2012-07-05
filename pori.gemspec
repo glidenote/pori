@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'pit'
   gem.add_dependency 'rake'
+  gem.add_dependency 'httparty'
   gem.add_development_dependency 'rspec'
 end
