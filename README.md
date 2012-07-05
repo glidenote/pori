@@ -18,8 +18,15 @@ Or install it yourself as:
 
 ## Usage
 
+### create repository
+
     $ cd path/to/local-git-directory
     $ pori
+
+### delete repository
+
+    $ cd path/to/local-git-directory
+    $ pori delete
 
 ## Requirements
 
