@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 
 require 'pit'
+require 'httparty'
 
 module Pori
   class Commands
     def initialize(args)
       @command = args.empty? ? :create : args.shift.to_sym
 
-      config = Pit.get("bitbucket", :require  => {
-        "username"  => "your account in bitbucket",
-        "password"  => "your password in bitbucket"
-      })
-      @username = config['username']
-      @password = config['password']
+      config = Pit.get("bitbucket",
+        require: {
+          "username" => "your account in bitbucket",
+          "password" => "your password in bitbucket"
+        }
+      )
+
+      @options   = {
+        basic_auth: { username: config['username'], password: config['password'] },
+        headers:    { "User-Agent" => "Pori #{Pori::VERSION} - https://github.com/glidenote/pori" }
+      }
+
+      @repo      = repo_name
+      @username  = config['username']
     end
 
     def self.run(args)
@@ -24,20 +33,37 @@ module Pori
     end
 
     def create
-      repo = repo_name
+      endpoint = 'https://api.bitbucket.org/1.0/repositories/'
 
-      puts "curl --request POST --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/ --data name=#{repo} --data scm=git --data is_private=true"
-      system "curl --request POST --user #{@username}:#{@password} https://api.bitbucket.org/1.0/repositories/ --data name=#{repo} --data scm=git --data is_private=true"
-      puts "git remote add origin ssh://git@bitbucket.org/#{@username}/#{repo}.git"
-      system "git remote add origin ssh://git@bitbucket.org/#{@username}/#{repo}.git"
+      @options.merge!(
+        { body:
+          { name: @repo, scm: "git", is_private: "true" }
+        }
+      )
+      response = HTTParty.post(endpoint, @options)
+
+      if response.code.to_i == 200
+        puts "Successfully created."
+        puts "git remote add origin ssh://git@bitbucket.org/#{@username}/#{@repo}.git"
+        system "git remote add origin ssh://git@bitbucket.org/#{@username}/#{@repo}.git"
+      else
+        $stdout.puts "Something was wrong... o_O"
+        $stdout.puts
+        $stdout.puts response
+      end
     end
 
     def delete
-      repo = repo_name
-
       if del_flags
-        puts "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
-        system "curl --request DELETE --user #{@username}:#{@password.chars.map{|c| '*'}.join} https://api.bitbucket.org/1.0/repositories/#{@username}/#{repo}"
+        endpoint = "https://api.bitbucket.org/1.0/repositories/#{@username}/#{@repo}"
+        response = HTTParty.delete(endpoint, @options)
+        if response.code.to_i == 204
+          puts "Successfully deleted."
+        else
+          $stdout.puts "Something was wrong... o_O"
+          $stdout.puts
+          $stdout.puts response
+        end
       else
         puts "Canceled."
       end
@@ -54,13 +80,12 @@ module Pori
     end
 
     def del_flags
-      repo = repo_name
       confirm = false
 
-      print "Please type in the name of the repository to confirm [(#{repo})] :"
+      print "Please type in the name of the repository to confirm [(#{@repo})] :"
       del_repo = STDIN.gets.chomp
 
-      if del_repo == repo
+      if del_repo == @repo
         print "Really delete repository? [y/N] :"
         yes_or_no = STDIN.gets.chomp
         if yes_or_no =~ /yes|y/i
@@ -68,6 +93,5 @@ module Pori
         end
       end
     end
-
   end
 end
