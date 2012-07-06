@@ -72,7 +72,14 @@ module Pori
     private
     def repo_name
       raise Exception, "Not a git repository" unless is_git_repo?
-      Dir.pwd.split('/')[-1]
+      tmp_dir = `git rev-parse -q --git-dir`.chomp
+      if tmp_dir == ".git"
+        repo_name = File.basename(Dir.pwd)
+      else
+        repo_dir_name = File.dirname("#{tmp_dir}")     # => /Users/akira/repos/pori/.git
+        repo_name = File.basename("#{repo_dir_name}")  # => pori
+      end
+      repo_name
     end
 
     def is_git_repo?
