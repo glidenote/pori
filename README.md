@@ -1,6 +1,6 @@
 # Pori
 
-A command line toos for Bitbucket to create, delete private repository.(only git)
+A command line tool for Bitbucket to create, delete private repository.(only git)
 
 ## Installation
 
